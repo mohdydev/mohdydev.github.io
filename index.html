@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mahdi Hossain — AI Automation & Custom Software</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #07090f;
+      --surface:      #0e1118;
+      --surface-2:    #141824;
+      --border:       rgba(255,255,255,0.07);
+      --border-hover: rgba(90,255,215,0.35);
+      --text:         #d8dce8;
+      --text-muted:   #636b8a;
+      --text-subtle:  #3d4460;
+      --accent:       #5affd7;
+      --accent-dim:   rgba(90,255,215,0.1);
+      --accent-glow:  rgba(90,255,215,0.2);
+      --font-display: 'Syne', sans-serif;
+      --font-body:    'Manrope', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(7,9,15,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-hire {
+      color: var(--accent) !important;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 40px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* subtle dot grid */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.055) 1px, transparent 1px);
+      background-size: 30px 30px;
+      pointer-events: none;
+    }
+
+    /* fade dots toward edges */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 35%, var(--bg) 78%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent-dim);
+      border: 1px solid rgba(90,255,215,0.2);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.2s;
+    }
+
+    .hero-badge .pulse-dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulseDot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.75); }
+    }
+
+    h1.hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(52px, 9vw, 96px);
+      font-weight: 800;
+      line-height: 0.93;
+      letter-spacing: -0.045em;
+      color: #fff;
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.4s;
+    }
+
+    .hero-typing-row {
+      font-family: var(--font-display);
+      font-size: clamp(17px, 2.8vw, 26px);
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 22px;
+      min-height: 1.4em;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.6s;
+    }
+
+    #typing-text {
+      color: var(--accent);
+      border-right: 2px solid var(--accent);
+      padding-right: 3px;
+      animation: blink 0.85s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { border-color: var(--accent); }
+      50%       { border-color: transparent; }
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 500px;
+      margin: 0 auto 44px;
+      line-height: 1.75;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.8s;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 1s;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #07090f;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 14px;
+      padding: 14px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px var(--accent-glow);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 14px;
+      padding: 13px 28px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, transform 0.2s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--border-hover);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SHARED SECTION STYLES ── */
+    .section {
+      padding: 100px 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .section-heading {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4vw, 46px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+
+    .section-sub {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 500px;
+      margin-bottom: 56px;
+      line-height: 1.7;
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ── SERVICES ── */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 14px;
+    }
+
+    .service-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px;
+      transition: border-color 0.3s, transform 0.3s, background 0.3s;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .service-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.5s ease, transform 0.5s ease,
+                  border-color 0.3s, background 0.3s;
+    }
+
+    .service-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-5px);
+      background: var(--surface-2);
+    }
+
+    .service-icon {
+      width: 44px; height: 44px;
+      background: var(--accent-dim);
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .service-name {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .service-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 22px;
+    }
+
+    .service-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .service-price {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--accent-dim);
+      padding: 4px 12px;
+      border-radius: 100px;
+      letter-spacing: 0.02em;
+    }
+
+    .service-link {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .service-link:hover { color: var(--accent); }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .about-text p {
+      font-size: 16px;
+      color: var(--text-muted);
+      line-height: 1.85;
+      margin-bottom: 18px;
+    }
+
+    .about-text p strong { color: var(--text); font-weight: 600; }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 30px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.03em;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    /* ── CONNECT ── */
+    .connect-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .connect-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 22px;
+      text-decoration: none;
+      transition: border-color 0.3s, transform 0.3s;
+      opacity: 0;
+      transform: translateY(16px);
+    }
+
+    .connect-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s;
+    }
+
+    .connect-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+    }
+
+    .connect-icon {
+      width: 42px; height: 42px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .connect-name {
+      font-weight: 600;
+      font-size: 15px;
+      color: #fff;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .connect-handle {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 30px 40px;
+      text-align: center;
+      color: var(--text-subtle);
+      font-size: 13px;
+    }
+
+    footer span { color: var(--text-muted); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { gap: 20px; }
+      .section { padding: 70px 24px; }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .hero { padding: 100px 24px 60px; }
+    }
+
+    @media (max-width: 500px) {
+      .nav-links { display: none; }
+      .hero-ctas { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">MH</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#connect">Connect</a></li>
+    <li><a href="https://www.fiverr.com/mohdydev" target="_blank" class="nav-hire">Hire me →</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="pulse-dot"></span>
+      Available for work
+    </div>
+    <h1 class="hero-name">Mahdi<br>Hossain</h1>
+    <div class="hero-typing-row">
+      I build <span id="typing-text">Make.com Automation</span>
+    </div>
+    <p class="hero-sub">
+      CS &amp; AI student at AIUB. I help small businesses automate repetitive work, deploy AI chatbots, and build custom software systems — fast, clean, and on time.
+    </p>
+    <div class="hero-ctas">
+      <a href="https://www.fiverr.com/mohdydev" target="_blank" class="btn-primary">
+        View on Fiverr <i class="fa-solid fa-arrow-right"></i>
+      </a>
+      <a href="#services" class="btn-secondary">
+        See my services <i class="fa-solid fa-chevron-down"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <p class="section-label">What I build</p>
+  <h2 class="section-heading">Services</h2>
+  <p class="section-sub">Five focused services. All delivered as clean documentation and configuration files you can implement right away.</p>
+
+  <div class="services-grid">
+
+    <div class="service-card">
+      <div class="service-icon"><i class="fa-solid fa-bolt"></i></div>
+      <h3 class="service-name">Make.com Automation</h3>
+      <p class="service-desc">Complete workflow logic connecting your apps — Google Sheets, Gmail, Slack, Notion, HubSpot, Shopify, and more. Delivered as a step-by-step setup guide you follow yourself.</p>
+      <div class="service-footer">
+        <span class="service-price">$80 – $500</span>
+        <a href="https://www.fiverr.com/mohdydev" target="_blank" class="service-link">Order on Fiverr <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon"><i class="fa-solid fa-comments"></i></div>
+      <h3 class="service-name">AI Chatbot Setup</h3>
+      <p class="service-desc">Custom chatbots configured on Tidio, ManyChat, or Crisp for your website or social channels. Built for restaurants, clinics, real estate agents, and e-commerce stores.</p>
+      <div class="service-footer">
+        <span class="service-price">$50 – $200</span>
+        <a href="https://www.fiverr.com/mohdydev" target="_blank" class="service-link">Order on Fiverr <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon"><i class="fa-solid fa-robot"></i></div>
+      <h3 class="service-name">Custom GPT Building</h3>
+      <p class="service-desc">Tailored GPT assistants with system prompt design, knowledge base structuring, and behaviour configuration. Your business gets its own AI assistant, built to your exact needs.</p>
+      <div class="service-footer">
+        <span class="service-price">$50 – $200</span>
+        <a href="https://www.fiverr.com/mohdydev" target="_blank" class="service-link">Order on Fiverr <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon"><i class="fa-solid fa-file-lines"></i></div>
+      <h3 class="service-name">Technical Documentation</h3>
+      <p class="service-desc">API reference guides, developer onboarding docs, and user manuals for SaaS products. Clear, structured writing backed by real CS and software knowledge.</p>
+      <div class="service-footer">
+        <span class="service-price">$60 – $220</span>
+        <a href="https://www.fiverr.com/mohdydev" target="_blank" class="service-link">Order on Fiverr <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon"><i class="fa-solid fa-pen-nib"></i></div>
+      <h3 class="service-name">AI Content Humanization</h3>
+      <p class="service-desc">AI-written text edited to read like a real person wrote it. Genuine manual edits — not a pass through another AI tool. Delivers naturally human-sounding copy.</p>
+      <div class="service-footer">
+        <span class="service-price">$15 – $30</span>
+        <a href="https://www.fiverr.com/mohdydev" target="_blank" class="service-link">Order on Fiverr <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <p class="section-label">Background</p>
+  <h2 class="section-heading">About me</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm <strong>Mahdi Hossain</strong>, a Computer Science &amp; AI student at <strong>American International University Bangladesh (AIUB)</strong>, majoring in Artificial Intelligence. I'm building toward a research and product career focused on applied machine learning.</p>
+      <p>On the practical side, I help small businesses move faster by deploying AI and automation tools that eliminate repetitive work. I combine deep knowledge of how these platforms actually work with clear communication — so you get a system you understand, not a black box.</p>
+      <p>I keep response times short, scopes tight, and deliverables clean. Message me before ordering and I'll tell you honestly whether I can help and exactly what will work for your situation.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card">
+        <span class="stat-number">5</span>
+        <span class="stat-label">Focused service areas</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">AI</span>
+        <span class="stat-label">University major at AIUB</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">&lt;4h</span>
+        <span class="stat-label">Average first reply time</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">BD</span>
+        <span class="stat-label">Based in Bangladesh, serving globally</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONNECT -->
+<section class="section" id="connect">
+  <p class="section-label">Find me</p>
+  <h2 class="section-heading">Connect</h2>
+  <p class="section-sub">All the places you can hire me, see my work, or follow along.</p>
+
+  <div class="connect-grid">
+
+    <a href="https://www.fiverr.com/mohdydev" target="_blank" class="connect-card">
+      <div class="connect-icon" style="background:rgba(26,182,111,0.15); color:#1ab66f;">
+        <i class="fa-solid fa-store"></i>
+      </div>
+      <div>
+        <span class="connect-name">Fiverr</span>
+        <span class="connect-handle">@mohdydev</span>
+      </div>
+    </a>
+
+    <!-- TODO: replace # with your GitHub URL once the account is created -->
+    <a href="#" target="_blank" class="connect-card">
+      <div class="connect-icon" style="background:rgba(255,255,255,0.07); color:#e6edf3;">
+        <i class="fa-brands fa-github"></i>
+      </div>
+      <div>
+        <span class="connect-name">GitHub</span>
+        <span class="connect-handle">@mahdihossain</span>
+      </div>
+    </a>
+
+    <!-- TODO: replace # with your Facebook profile URL -->
+    <a href="#" target="_blank" class="connect-card">
+      <div class="connect-icon" style="background:rgba(24,119,242,0.15); color:#1877f2;">
+        <i class="fa-brands fa-facebook"></i>
+      </div>
+      <div>
+        <span class="connect-name">Facebook</span>
+        <span class="connect-handle">Mahdi Hossain</span>
+      </div>
+    </a>
+
+    <!-- TODO: replace # with your Freelancer.com profile URL once set up -->
+    <a href="#" target="_blank" class="connect-card">
+      <div class="connect-icon" style="background:rgba(41,181,246,0.15); color:#29b5f6;">
+        <i class="fa-solid fa-briefcase"></i>
+      </div>
+      <div>
+        <span class="connect-name">Freelancer</span>
+        <span class="connect-handle">Mahdi Hossain</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>Mahdi Hossain</span> &nbsp;·&nbsp; CS &amp; AI Student, AIUB &nbsp;·&nbsp; Available for freelance work
+</footer>
+
+<script>
+  /* ── Typing animation ── */
+  const phrases = [
+    'Make.com Automation',
+    'AI Chatbots',
+    'Custom GPT Assistants',
+    'Technical Documentation',
+    'AI Content Systems'
+  ];
+
+  let phraseIdx = 0, charIdx = 0, deleting = false;
+  const el = document.getElementById('typing-text');
+
+  function type() {
+    const word = phrases[phraseIdx];
+    if (!deleting) {
+      el.textContent = word.slice(0, charIdx + 1);
+      charIdx++;
+      if (charIdx === word.length) {
+        setTimeout(() => { deleting = true; type(); }, 2200);
+        return;
+      }
+    } else {
+      el.textContent = word.slice(0, charIdx - 1);
+      charIdx--;
+      if (charIdx === 0) {
+        deleting = false;
+        phraseIdx = (phraseIdx + 1) % phrases.length;
+      }
+    }
+    setTimeout(type, deleting ? 38 : 68);
+  }
+  type();
+
+  /* ── Scroll-triggered fade-in for cards ── */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const delay = parseInt(entry.target.dataset.delay) || 0;
+        setTimeout(() => entry.target.classList.add('visible'), delay);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.service-card').forEach((card, i) => {
+    card.dataset.delay = i * 80;
+    observer.observe(card);
+  });
+
+  document.querySelectorAll('.connect-card').forEach((card, i) => {
+    card.dataset.delay = i * 90;
+    observer.observe(card);
+  });
+</script>
+
+</body>
+</html>
